@@ -1,5 +1,5 @@
 VERSION:=1.0.0
-NAME:=thiss-go-mdq
+NAME:=metadata-index
 
 all: build
 build:
