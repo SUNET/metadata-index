@@ -20,6 +20,7 @@ GET /api/search?q=<query string>
 Return a JSON list of @id elements. If q is absent return all elements in the index.
 
 status
+------
 
 GET /api/status
 
