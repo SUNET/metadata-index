@@ -1,4 +1,4 @@
-Datsets index service
+Datasets index service
 =====
 
 API
