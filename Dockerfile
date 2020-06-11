@@ -11,4 +11,4 @@ FROM gcr.io/distroless/base:debug
 COPY --from=build /usr/bin/mix /usr/bin/mix
 VOLUME /etc/datasets
 EXPOSE 3000
-CMD ["/usr/bin/mix","-index","/etc/datasets/.bleve"]
+ENTRYPOINT ["/usr/bin/mix","-index","/etc/datasets/.bleve"]
