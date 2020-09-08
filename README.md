@@ -17,7 +17,7 @@ Register a URL with the index server. The URL will be dereferenced and if it con
 *Example*
 
 ```
-# curl -XPOST --data "https://raw.githubusercontent.com/SUNET/metadata-manifests/master/examples/example.jsonld" http://localhost:3000/register
+# curl -XPOST --data "https://raw.githubusercontent.com/SUNET/metadata-manifests/master/examples/example.jsonld" http://localhost:3000/api/register
 ```
 
 search
