@@ -73,7 +73,9 @@ clean:
 docker:
 	docker build -t "mix:$(COMMIT)" .
 	docker tag mix:$(COMMIT) docker.sunet.se/mix:$(COMMIT)
+	docker tag mix:$(COMMIT) docker.sunet.se/mix:latest
 	docker push docker.sunet.se/mix:$(COMMIT)
+	docker push docker.sunet.se/mix:latest
 
 .PHONY: deb-source
 deb-source:
