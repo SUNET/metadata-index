@@ -1,0 +1,90 @@
+definitions:
+  api.StatusResponse:
+    properties:
+      name:
+        example: mix
+        type: string
+      size:
+        example: 100
+        type: integer
+      version:
+        example: "1.0"
+        type: string
+    type: object
+  manifest.ManifestInfo:
+    properties:
+      '@id':
+        type: string
+      mm:creator:
+        type: string
+      mm:manifest:
+        items:
+          $ref: '#/definitions/manifest.TypedSchema'
+        type: array
+      mm:publisher:
+        type: string
+      mm:rightsHolder:
+        type: string
+    type: object
+  manifest.TypedSchema:
+    properties:
+      '@id':
+        type: string
+      mm:schema:
+        type: string
+    type: object
+info:
+  contact:
+    email: noc@sunet.se
+    name: SUNET NOC
+    url: https://www.sunet.se/
+  description: Register and search metadata manifest objects
+  license:
+    name: BSD
+  title: Metadata Manifest Index Server
+  version: "1.0"
+paths:
+  /register:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/manifest.ManifestInfo'
+      summary: Register a JSON-LD URL with the index server
+      tags:
+      - register
+  /search:
+    get:
+      parameters:
+      - description: query string
+        in: query
+        name: query
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: list
+      summary: Search the index
+      tags:
+      - search
+  /status:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.StatusResponse'
+      summary: Display status and version information
+      tags:
+      - status
+swagger: "2.0"

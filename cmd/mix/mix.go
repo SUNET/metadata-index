@@ -2,12 +2,15 @@ package main
 
 import (
         "flag"
-        //"os"
         "net/http"
+        "crypto/tls"
+        "github.com/sunet/metadata-index/pkg/api"
+        "github.com/sunet/metadata-index/pkg/datasets"
+        "github.com/sunet/metadata-index/pkg/utils"
+        "github.com/sirupsen/logrus"
 )
 
-var Name = "metadata-index"
-var Version = "1.0.0"
+var log = logrus.New()
 
 var indexPath = flag.String("index", ".datasets", "index path")
 var bindAddr = flag.String("bind", ":3000", "http listen address")
@@ -17,10 +20,20 @@ var rebuild = flag.Bool("rebuild", false, "force re-index")
 
 func main() {
         flag.Parse()
-        db := NewDatasets(*indexPath)
+        db := datasets.NewDatasets(*indexPath)
 	db.Reload()
-        http.Handle("/", db.NewAPI())
-        log.Printf("Listening on %v", *bindAddr)
-        log.Fatal(http.ListenAndServe(*bindAddr, nil))
+
+        http.Handle("/", api.NewAPI(&db))
+        cfg := utils.GetTLSConfig()
+        if cfg == nil {
+                log.Fatal(http.ListenAndServe(*bindAddr, nil))
+        } else {
+                log.Debug("Enabling TLS...")
+                listener, err := tls.Listen("tcp", *bindAddr, cfg)
+                if err != nil {
+                        log.Fatal(err)
+                }
+                log.Fatal(http.Serve(listener, nil))
+        }
 }
 

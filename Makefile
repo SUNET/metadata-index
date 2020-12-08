@@ -35,8 +35,12 @@ endif
 all:
 	@$(MAKE) --no-print-directory mix #docs/mix.1
 
+.PHONY: swag
+swag:
+	swag init -g pkg/api/api.go
+
 .PHONY: mix
-mix:
+mix: swag
 	go build $(GO_BUILD_FLAGS) -ldflags "$(LDFLAGS)" ./cmd/mix
 
 docs/%.1: docs/%.ronn.1

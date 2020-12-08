@@ -1,0 +1,139 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Register and search metadata manifest objects",
+        "title": "Metadata Manifest Index Server",
+        "contact": {
+            "name": "SUNET NOC",
+            "url": "https://www.sunet.se/",
+            "email": "noc@sunet.se"
+        },
+        "license": {
+            "name": "BSD"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "register"
+                ],
+                "summary": "Register a JSON-LD URL with the index server",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/manifest.ManifestInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search the index",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "query string",
+                        "name": "query",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "list"
+                        }
+                    }
+                }
+            }
+        },
+        "/status": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "status"
+                ],
+                "summary": "Display status and version information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.StatusResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.StatusResponse": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "mix"
+                },
+                "size": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "version": {
+                    "type": "string",
+                    "example": "1.0"
+                }
+            }
+        },
+        "manifest.ManifestInfo": {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "mm:creator": {
+                    "type": "string"
+                },
+                "mm:manifest": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/manifest.TypedSchema"
+                    }
+                },
+                "mm:publisher": {
+                    "type": "string"
+                },
+                "mm:rightsHolder": {
+                    "type": "string"
+                }
+            }
+        },
+        "manifest.TypedSchema": {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                },
+                "mm:schema": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

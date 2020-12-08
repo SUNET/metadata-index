@@ -1,7 +1,6 @@
-package main
+package datasets
 
 import (
-	//"fmt"
         "github.com/blevesearch/bleve"
         "github.com/blevesearch/bleve/analysis/analyzer/custom"
         "github.com/blevesearch/bleve/analysis/analyzer/keyword"
@@ -13,35 +12,18 @@ import (
         blevemapping "github.com/blevesearch/bleve/mapping"
         "github.com/sirupsen/logrus"
 	"sync"
-        //"io"
-        //"os"
-        //"strings"
-        //"time"
 )
 
 var log = logrus.New()
 
 type Datasets struct {
-	index		bleve.Index
+	Bleve           bleve.Index
 	indexPath	string
 }
 
 func NewDatasets(indexPath string) Datasets {
 	ds := &Datasets {indexPath: indexPath }
 	return *ds
-}
-
-type TypedSchema struct {
-	ID		string `json:"@id"`
-	Schema		string `json:"mm:schema"`
-}
-
-type ManifestInfo struct {
-	ID		string `json:"@id"`
-	Publisher	string `json:"mm:publisher"`
-	Creator		string `json:"mm:creator"`
-	RightsHolder	string `json:"mm:rightsHolder"`
-        Manifest	[]TypedSchema `json:"mm:manifest"`
 }
 
 func NgramTokenFilter() map[string]interface{} {
@@ -124,10 +106,10 @@ func NewIndexMapping() blevemapping.IndexMapping {
 
 func (db *Datasets) LoadIndex(wg *sync.WaitGroup) {
 	var err error
-	if db.index == nil {
-                db.index, err = bleve.Open(db.indexPath)
+	if db.Bleve == nil {
+                db.Bleve, err = bleve.Open(db.indexPath)
                 if err == bleve.ErrorIndexPathDoesNotExist {
-                        db.index, err = bleve.New(db.indexPath, NewIndexMapping())
+                        db.Bleve, err = bleve.New(db.indexPath, NewIndexMapping())
                         if err != nil {
                                 log.Fatalf("failed to create index: %s", err)
                         }
