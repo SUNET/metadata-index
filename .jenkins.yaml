@@ -1,6 +1,7 @@
-docker_name: mix
+triggers:
+    cron: @daily
 builders:
-   - docker
-managed_scripts:
-   - docker_build_prep.sh
-   - docker_tag.sh
+    - script
+script:
+    - apt-get install gettext-base
+    - make docker
