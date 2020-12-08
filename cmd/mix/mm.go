@@ -31,17 +31,17 @@ func NewDatasets(indexPath string) Datasets {
 	return *ds
 }
 
-type typedSchema struct {
+type TypedSchema struct {
 	ID		string `json:"@id"`
-	schema		string `json:"mm:schema"`
+	Schema		string `json:"mm:schema"`
 }
 
-type manifest struct {
+type ManifestInfo struct {
 	ID		string `json:"@id"`
 	Publisher	string `json:"mm:publisher"`
 	Creator		string `json:"mm:creator"`
 	RightsHolder	string `json:"mm:rightsHolder"`
-        Manifest	[]typedSchema `json:"mm:manifest"`
+        Manifest	[]TypedSchema `json:"mm:manifest"`
 }
 
 func NgramTokenFilter() map[string]interface{} {
